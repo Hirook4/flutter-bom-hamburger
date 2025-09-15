@@ -1,6 +1,6 @@
-import 'package:bom_hamburguer/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:bom_hamburguer/_utils/color_theme.dart';
+import 'package:bom_hamburguer/screens/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  /* Controller do campo name */
+  /* Controller do campo name (como é um app apenas para demonstração, os campos de email e senha não serão validados) */
   final TextEditingController _nameController = TextEditingController();
 
   @override

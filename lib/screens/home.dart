@@ -1,13 +1,13 @@
-import 'package:bom_hamburguer/screens/cart.dart';
-import 'package:bom_hamburguer/screens/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:bom_hamburguer/_utils/color_theme.dart';
+import 'package:bom_hamburguer/screens/cart.dart';
+import 'package:bom_hamburguer/screens/orders.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
-  /* Recuperando nome de usuario recebido da tela de login*/
+  /* Recuperando nome de usuário recebido da tela de login*/
   final String name;
   const Home({super.key, required this.name});
   @override
@@ -15,12 +15,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  /* Carrega e converte os dados do JSON que contem os itens */
+  /* Função assíncrona que carrega e converte os dados do JSON que contem os itens do cardápio */
   Future<List<Map<String, dynamic>>> loadItems() async {
-    final String manuItems = await rootBundle.loadString(
+    /* rootBundle acessa arquivos "locais" | loadString carrega eles como String  */
+    final String menuItems = await rootBundle.loadString(
       'assets/menu_items.json',
     );
-    final List<dynamic> items = jsonDecode(manuItems);
+    /* converte a String para uma lista dinâmica e depois "força" a tipagem correta */
+    final List<dynamic> items = jsonDecode(menuItems);
     return items.cast<Map<String, dynamic>>();
   }
 
@@ -109,7 +111,7 @@ class _HomeState extends State<Home> {
   /* Inicializa lista de pedidos */
   List<Map<String, dynamic>> orders = [];
 
-  /* Função para salvar pedidos localmente */
+  /* Função assíncrona para salvar pedidos localmente */
   Future<void> saveOrders() async {
     final prefs = await SharedPreferences.getInstance();
     final ordersJson = jsonEncode(orders);
@@ -136,7 +138,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  /* Carrega pedidos */
+  /* Carrega os pedidos junto no momento que a tela é carregada */
   @override
   void initState() {
     super.initState();
@@ -189,7 +191,7 @@ class _HomeState extends State<Home> {
                 padding: EdgeInsets.all(8),
                 child: Center(
                   child: Text(
-                    "Sabor irresistivel a cada mordida!",
+                    "Sabor irresistível a cada mordida!",
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
@@ -200,7 +202,7 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.monetization_on),
-                    Text("Pedido Minimo \$20", style: TextStyle(fontSize: 16)),
+                    Text("Pedido Mínimo \$20", style: TextStyle(fontSize: 16)),
                     Spacer(),
                     Icon(Icons.timer_outlined),
                     Text("40 - 60 min", style: TextStyle(fontSize: 16)),
@@ -273,17 +275,6 @@ class _HomeState extends State<Home> {
           );
         },
       ),
-      /* Botão flutuante para ir pro carrinho - DESATIVADO */
-      /* floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Cart(cart: cart)),
-          );
-        },
-        backgroundColor: Colors.black,
-        child: Icon(Icons.shopping_cart_outlined, color: Colors.white),
-      ), */
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           switch (index) {
