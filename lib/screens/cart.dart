@@ -91,7 +91,7 @@ class Cart extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${item['price'].toStringAsFixed(2)}',
+                                  '\$${(item['price'] as num).toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,

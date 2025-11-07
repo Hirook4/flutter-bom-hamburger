@@ -7,11 +7,11 @@ class Orders extends StatelessWidget {
 
   const Orders({super.key, required this.orders, required this.name});
 
-  /* Verifica os tipos existentes no carrinho e calcula o desconto, provavelmente não é a melhor forma de mostrar o desconto novamente, ja que o calculo foi feito no carrinho...*/
   double calcValues(List<Map<String, dynamic>> cart) {
     return cart.fold(0.0, (sum, item) => sum + (item['price'] as double));
   }
 
+  /* Verifica os tipos existentes no carrinho e calcula o desconto, provavelmente não é a melhor forma de mostrar o desconto novamente, ja que o calculo foi feito no carrinho...*/
   double calcDiscount(List<Map<String, dynamic>> cart) {
     final types = cart.map((item) => item['type'] as String).toSet();
 

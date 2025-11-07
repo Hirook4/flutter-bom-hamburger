@@ -14,6 +14,34 @@ class _LoginState extends State<Login> {
   final TextEditingController _nameController = TextEditingController();
 
   @override
+  void dispose() {
+    /* Libera o Controller quando o Widget for encerrado */
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _handleLogin() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Efetuando Login"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) {
+        return;
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(name: _nameController.text),
+        ),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorTheme.primaryColor,
@@ -30,7 +58,7 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "BOM HAMBURGUER",
+                      "BOM HAMBÚRGUER",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 38,
@@ -76,7 +104,7 @@ class _LoginState extends State<Login> {
                     color: ColorTheme.quaternaryColor,
                   ),
                   decoration: InputDecoration(
-                    labelText: "email",
+                    labelText: "email (optional)",
                     labelStyle: TextStyle(color: ColorTheme.quaternaryColor),
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -105,7 +133,7 @@ class _LoginState extends State<Login> {
                     color: ColorTheme.quaternaryColor,
                   ),
                   decoration: InputDecoration(
-                    labelText: "password",
+                    labelText: "password (optional)",
                     labelStyle: TextStyle(color: ColorTheme.quaternaryColor),
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -133,23 +161,7 @@ class _LoginState extends State<Login> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorTheme.tertiaryColor,
                     ),
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Efetuando Login"),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                      Future.delayed(Duration(seconds: 2), () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Home(name: _nameController.text),
-                          ),
-                        );
-                      });
-                    },
+                    onPressed: _handleLogin,
                     child: Text(
                       'LOGIN',
                       style: TextStyle(color: ColorTheme.quaternaryColor),

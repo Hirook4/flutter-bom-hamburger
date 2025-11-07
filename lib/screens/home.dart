@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
   void addToCart(Map<String, dynamic> item) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return AlertDialog(
           backgroundColor: ColorTheme.primaryColor,
           title: Text('Confirmar'),
@@ -121,6 +121,9 @@ class _HomeState extends State<Home> {
   /* Função para carregar lista de pedidos salva localmente */
   Future<void> loadOrders() async {
     final prefs = await SharedPreferences.getInstance();
+    if (!mounted) {
+      return;
+    }
     final savedData = prefs.getString('savedOrders');
 
     if (savedData != null) {
@@ -151,7 +154,7 @@ class _HomeState extends State<Home> {
       backgroundColor: ColorTheme.primaryColor,
       appBar: AppBar(
         title: Text(
-          "BOM HAMBURGUER 🍔",
+          "BOM HAMBÚRGUER 🍔",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -257,7 +260,7 @@ class _HomeState extends State<Home> {
                             Padding(
                               padding: EdgeInsets.fromLTRB(0, 8, 8, 0),
                               child: Text(
-                                '\$${item['price'].toStringAsFixed(2)}',
+                                '\$${(item['price'] as num).toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -293,6 +296,9 @@ class _HomeState extends State<Home> {
                     MaterialPageRoute(builder: (context) => Cart(cart: cart)),
                   ) /* Após retorno do pagamento, cria pedido e limpa o carrinho */
                   .then((paymentDone) {
+                    if (!mounted) {
+                      return;
+                    }
                     if (paymentDone == true) {
                       setState(() {
                         orders.add({
